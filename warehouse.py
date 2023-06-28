@@ -4,6 +4,8 @@ history = []
 
 inventory = {}
 
+command = ['balance', 'sale', 'purchase', 'account', 'list', 'warehouse', 'review', 'end']
+
 print("Welcome to your warehouse software. These are the following commands: \n" )
 print('''\n
     1. 'balance': add or subtract from the account.\n 
@@ -79,7 +81,7 @@ while True:
             inventory[item] = quantity, price
             print(item + "\nQuantity: " + str(quantity) + "\nPrice: " + str(price))
 
-        elif balance_account - price < 0:
+        elif balance_account - price * quantity < 0:
             print("Not enough amount. ")
    
     elif command == 'list':
