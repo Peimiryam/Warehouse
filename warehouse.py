@@ -4,7 +4,7 @@ history = []
 
 inventory = {}
 
-command = ['balance', 'sale', 'purchase', 'account', 'list', 'warehouse', 'review', 'end']
+commands = ['balance', 'sale', 'purchase', 'account', 'list', 'warehouse', 'review', 'end']
 
 print("Welcome to your warehouse software. These are the following commands: \n" )
 print('''\n
@@ -22,17 +22,20 @@ while True:
     print("\nCommands: 'balance', 'sale', 'purchase', 'account', 'list', 'warehouse', 'review', 'end'.\n")
     command = input("Insert a command: ")
 
-    if command == 'account':
-        print(f"Total balance: {balance_account}" )
+    if command not in commands:
+        print("\nNot a valid command. ")
+
+    elif command == 'account':
+        print(f"\nTotal balance: {balance_account}" )
 
     elif command == 'end':
         print("\nHave a nice day :) Goodbye!")
         break
 
     elif command == 'balance':
-        amount = float(input( "Insert a value: "))
+        amount = float(input( "\nInsert a value: "))
 
-        operation = input("Enter which operation would you like to perform? +/- ")
+        operation = input("\nEnter which operation would you like to perform? +/- ")
 
         if operation == '+':
             balance_account = balance_account + amount 
@@ -40,83 +43,82 @@ while True:
         elif operation == '-':
 
             if balance_account - amount < 0:
-                print("Wrong input. ")
+                print("\nNot enough balance. ")
             elif balance_account - amount > 0:
                 balance_account= balance_account - amount
         history.append(operation)
         history.append(amount)
     
     elif command == 'sale':
-        item = input("Insert an item name: ")
+        item = input("\nInsert an item name: ")
 
         if item not in inventory:
-            print("not available for sale")
+            print("\nNot available for sale")
 
         elif item in inventory:
             
-            quantity = int(input("Insert a quantity: "))
-#not working
-            if inventory[item] < quantity:
-                print("Not enough quantity")
+            quantity = int(input("\nInsert a quantity: "))
+
+            if inventory[item][0] < int(quantity):
+                print("\nNot enough quantity")
 
             else:
-                inventory[item] -= quantity
+                inventory[item][0] -= int(quantity)
 
-            price = float(input("Insert a price: "))
-            balance_account = balance_account + price * quantity
-            history.append(f"Name: {item}")
-            history.append(f"Price: {price}")
-            history.append(quantity)
+                price = float(input("\nInsert a price: "))
+                balance_account = balance_account + price * quantity
+                history.append(f"Name: {item}")
+                history.append(f"Price: {price}")
+                history.append(quantity)
             
     elif command == 'purchase':
-        item = input("Insert an item name: ")
-        quantity = int(input("Insert a quantity: "))
-        price = float(input("Insert a price: "))
+        item = input("\nInsert an item name: ")
+        quantity = int(input("\nInsert a quantity: "))
+        price = float(input("\nInsert a price: "))
 
-        if balance_account - price > 0:
+        if balance_account - price * quantity < 0:
+            print("\nNot enough amount. Sorry :( ")
+
+        else:
             balance_account = balance_account - price * quantity
             history.append(f"Price: {price}")
             history.append(f"Name: {item}")
             history.append(quantity)
-            inventory[item] = quantity, price
-            print(item + "\nQuantity: " + str(quantity) + "\nPrice: " + str(price))
-
-        elif balance_account - price * quantity < 0:
-            print("Not enough amount. ")
+            #inventory[item] = [quantity, price]
+            inventory[item] = [quantity, f"Price:{price}"]
    
     elif command == 'list':
 
         if len(inventory) == 0:
-            print("No record found")
+            print("\nNo record found")
         else:
             print(inventory)
 
     elif command == 'warehouse':
-        search = input("Insert the name of the item you want to search: ")
+        search = input("\nInsert the name of the item you want to search: ")
 
         if search in inventory:
-            print("Item found. ")
+            print("\nItem found. ")
 
             ware = inventory.get(search)
-
             print(ware)
 
         else:
-            print("Not available")
+            print("\nNot available")
 
     elif command == 'review':
 
-        log = input("Press 'all' to see all history or 'range' to input range values")
+        log = input("\nPress 'ALL' to see all history or 'range' to input range values: ")
 
-        if log == 'all':
+        if log == 'ALL':
             print(history)
 
         elif log == 'range':
 
-            print("Insert a from and to value to see the history: ")
-        from_value = int(input("From: "))
-        to_value = int(input("To: "))
+            print("Insert a 'from' and 'to' value to see the history: ")
+            from_value = int(input("From: "))
+            to_value = int(input("To: "))
 
-        lenght = len(history)
+            lenght = len(history)
         
-        print(history[from_value : to_value])
+            print(history[from_value : to_value])
