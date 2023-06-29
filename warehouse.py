@@ -84,7 +84,6 @@ while True:
             history.append(f"Price: {price}")
             history.append(f"Name: {item}")
             history.append(quantity)
-            #inventory[item] = [quantity, price]
             inventory[item] = [quantity, f"Price:{price}"]
    
     elif command == 'list':
@@ -115,10 +114,13 @@ while True:
 
         elif log == 'range':
 
-            print("Insert a 'from' and 'to' value to see the history: ")
-            from_value = int(input("From: "))
-            to_value = int(input("To: "))
+            print("\nInsert a 'from' and 'to' value to see the history: ")
 
             lenght = len(history)
+            from_value = int(input("\nFrom: "))
+            to_value = int(input("\nTo: "))
+            if lenght < to_value:
+                print("Wrong input.")
+            else:
         
-            print(history[from_value : to_value])
+                print(history[from_value : to_value])
